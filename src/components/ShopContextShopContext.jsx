@@ -15,7 +15,7 @@ export function ProductProvider({ children }) {
       try {
         // Fetch products
         const productRes = await fetch(
-          `https://alos-strapi-repo-2.onrender.com/api/products?populate=*`
+          `http://localhost:1337/api/products?populate=*`
         );
 
         const productData = await productRes.json();
