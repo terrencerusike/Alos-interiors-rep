@@ -23,7 +23,6 @@ function CatalogSection() {
           <div className="item item2">
             <Link to={`/Shop/${categories[7].id}`}>
               <p>{categories[7].name}</p>
-              fdffsd
             </Link>
           </div>
         )}
