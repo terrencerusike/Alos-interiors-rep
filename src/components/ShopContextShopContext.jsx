@@ -14,9 +14,7 @@ export function ProductProvider({ children }) {
     const fetchData = async () => {
       try {
         // Fetch products
-        const productRes = await fetch(
-          `http://localhost:1337/api/products?populate=*`
-        );
+        const productRes = await fetch(`/api/products?populate=*`);
 
         const productData = await productRes.json();
 
@@ -29,7 +27,7 @@ export function ProductProvider({ children }) {
             price: item.price,
             description: item.description,
             image: item.images?.[0]?.url
-              ? `http://localhost:1337${item.images[0].url}`
+              ? `${item.images[0].url}`
               : "/fallback-image.png",
             category: item.category, // Include the category object
           }));
@@ -37,7 +35,7 @@ export function ProductProvider({ children }) {
         }
 
         // Fetch categories
-        const categoryRes = await fetch("http://localhost:1337/api/categories");
+        const categoryRes = await fetch("/api/categories");
 
         const categoryData = await categoryRes.json();
         console.log("Category response:", categoryData);
