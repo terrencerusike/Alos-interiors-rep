@@ -15,14 +15,14 @@ function CatalogSection() {
         {categories[5] && (
           <div className="item item1">
             <Link to={`/Shop/${categories[5].id}`}>
-              <p>vvvvvvvvvvvv{categories[5].name}</p>
+              <p>{categories[5].name}</p>
             </Link>
           </div>
         )}
         {categories[7] && (
           <div className="item item2">
             <Link to={`/Shop/${categories[7].id}`}>
-              <p>{categories[7].name}</p>
+              <p>kkkkk{categories[7].name}</p>
             </Link>
           </div>
         )}
