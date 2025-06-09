@@ -23,18 +23,16 @@ export function ProductProvider({ children }) {
         if (productData.data) {
           const formattedProducts = productData.data.map((item) => {
             const imageObj = item.images?.[0];
-            const mediumImage = imageObj?.formats?.medium?.url;
-            const originalImage = imageObj?.url;
+            const imageUrl =
+              imageObj?.formats?.medium?.url || imageObj?.url || null;
 
             return {
               id: item.id,
               name: item.name,
               price: item.price,
               description: item.description,
-              image: mediumImage
-                ? `https://alos-strapi-repo-3.onrender.com${mediumImage}`
-                : originalImage
-                ? `https://alos-strapi-repo-3.onrender.com${originalImage}`
+              image: imageUrl
+                ? `https://alos-strapi-repo-3.onrender.com${imageUrl}`
                 : "/fallback-image.png",
               category: item.category,
             };
