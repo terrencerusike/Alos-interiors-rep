@@ -5,14 +5,16 @@ import "./CatalogSection.css";
 
 function CatalogSection() {
   const { categories, loading } = useProducts();
-  console.log("Categories:", categories);
 
-  if (loading) return <p>Loading categories...</p>;
+  // Wait until categories are loaded and valid
+  if (loading || !Array.isArray(categories)) {
+    return <p>Loading categories...</p>;
+  }
 
-  // Helper to find a category by name
-  const getCategory = (name) => categories.find((cat) => cat.name === name);
+  // Helper to find a category safely by name
+  const getCategory = (name) =>
+    categories.find((cat) => cat?.name?.toLowerCase() === name.toLowerCase());
 
-  // Grab each category safely by name
   const accessories = getCategory("Accessories");
   const bedroom = getCategory("Bedroom");
   const dining = getCategory("Dining Room");
