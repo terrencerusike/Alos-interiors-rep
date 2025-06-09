@@ -50,7 +50,7 @@ function CatalogSection() {
         {categories[7] && (
           <div className="item item6">
             <Link to={`/Shop/${categories[7].id}`}>
-              <p>{categories[7].name}</p>
+              <p>{categories[7].name}FFF</p>
             </Link>
           </div>
         )}
