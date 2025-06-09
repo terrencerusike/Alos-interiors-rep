@@ -7,7 +7,7 @@ import "./CatalogSection.css";
 function CatalogSection() {
   const { categories, loading } = useProducts();
 
-  if (loading) return <p>Loading categorieszzz...</p>;
+  if (loading) return <p>Loading categories...</p>;
 
   return (
     <div className="catalog-section">
@@ -55,6 +55,7 @@ function CatalogSection() {
           </div>
         )}
       </div>
+      hdfdfd
     </div>
   );
 }
