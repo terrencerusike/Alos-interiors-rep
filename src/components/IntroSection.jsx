@@ -19,7 +19,7 @@ function IntroSection() {
           we’ve built a reputation for quality, craftsmanship, and customer
           satisfaction. Our deep expertise ensures that every piece is
           thoughtfully designed and made to last. Trust us to bring timeless
-          style and reliable comfort into your home.
+          style and reliable comfort into your home..
         </p>
       </div>
       <div className="intro-section-image">
