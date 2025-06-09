@@ -30,18 +30,26 @@ function IntroSection_products() {
           </div>
         </div>
         <div className="intro-section-products-right">
-          {featuredProducts.map((product) => (
-            <Link to={`/product/${product.id}`} key={product.id}>
-              <div className="intro-section-products-right-item">
-                <span>SAVE 20%</span>
-                <img src={product.image} alt={product.name} />
-
-                <p className="title">{product.name}</p>
-                <p className="price">R{product.price}</p>
-              </div>
-            </Link>
-          ))}
+          {featuredProducts.map((product) => {
+            console.log(
+              "Image URL for product",
+              product.id,
+              ":",
+              product.image
+            );
+            return (
+              <Link to={`/product/${product.id}`} key={product.id}>
+                <div className="intro-section-products-right-item">
+                  <span>SAVE 20%</span>
+                  <img src={product.image} alt={product.name} />
+                  <p className="title">{product.name}</p>
+                  <p className="price">R{product.price}</p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
+
         <Link to="/Shop" className="intro-section-text">
           View All &gt;
         </Link>
