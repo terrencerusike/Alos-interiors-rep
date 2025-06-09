@@ -46,7 +46,7 @@ export function ProductProvider({ children }) {
             },
           }
         );
-
+        console.log("Category response:", categoryRes);
         if (!categoryRes.ok) {
           throw new Error(`HTTP error! status: ${categoryRes.status}`);
         }
