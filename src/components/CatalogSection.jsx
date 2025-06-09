@@ -12,10 +12,10 @@ function CatalogSection() {
   return (
     <div className="catalog-section">
       <div className="grid">
-        {categories[11] && (
+        {categories[5] && (
           <div className="item item1">
-            <Link to={`/Shop/${categories[11].id}`}>
-              <p>{categories[11].name}</p>
+            <Link to={`/Shop/${categories[5].id}`}>
+              <p>{categories[5].name}</p>
             </Link>
           </div>
         )}
