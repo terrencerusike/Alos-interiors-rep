@@ -93,14 +93,16 @@ function Navbar() {
                 <span className="arrow">▼</span>
                 {isServicesOpen && (
                   <ul className="services_dropdown">
-                    {categories.map((category) => (
-                      <li
-                        key={category.id}
-                        onClick={() => handleCategoryClick(category.id)}
-                      >
-                        {category.name}
-                      </li>
-                    ))}
+                    {categories &&
+                      categories.length > 0 &&
+                      categories.map((category) => (
+                        <li
+                          key={category.id}
+                          onClick={() => handleCategoryClick(category.id)}
+                        >
+                          {category.name}
+                        </li>
+                      ))}
                   </ul>
                 )}
               </li>
@@ -158,14 +160,16 @@ function Navbar() {
                       isServicesOpen ? "active" : ""
                     }`}
                   >
-                    {categories.map((category) => (
-                      <li
-                        key={category.id}
-                        onClick={() => handleCategoryClick(category.id)}
-                      >
-                        {category.name}
-                      </li>
-                    ))}
+                    {categories &&
+                      categories.length > 0 &&
+                      categories.map((category) => (
+                        <li
+                          key={category.id}
+                          onClick={() => handleCategoryClick(category.id)}
+                        >
+                          {category.name}
+                        </li>
+                      ))}
                   </ul>
                 </li>
                 <li>Blogs</li>
