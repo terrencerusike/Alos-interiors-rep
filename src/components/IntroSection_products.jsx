@@ -1,13 +1,15 @@
 import React from "react";
-import product from "./Assets/product.png";
 import "./IntroSection_products.css";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useProducts } from "./ShopContextShopContext";
 
 function IntroSection_products() {
   const { products } = useProducts();
 
+  console.log("Product data:", products); // <-- Here
+
   const featuredProducts = products.slice(0, 4);
+
   return (
     <div>
       <div className="intro-section-products">
