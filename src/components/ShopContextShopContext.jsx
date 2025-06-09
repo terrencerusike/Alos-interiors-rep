@@ -26,15 +26,14 @@ export function ProductProvider({ children }) {
         if (productData.data) {
           const formattedProducts = productData.data.map((item) => ({
             id: item.id,
-            name: item.attributes.name,
-            price: item.attributes.price,
-            description: item.attributes.description,
-            image: item.attributes.images?.data?.[0]?.attributes?.url
-              ? `https://alos-strapi-repo-3.onrender.com${item.attributes.images.data[0].attributes.url}`
+            name: item.name,
+            price: item.price,
+            description: item.description,
+            image: item.images?.[0]?.url
+              ? `https://alos-strapi-repo-3.onrender.com${item.images[0].url}`
               : "/fallback-image.png",
-            category: item.attributes.category?.data, // Include the category object
+            category: item.category, // Include the category object
           }));
-          console.log("Formatted products:", formattedProducts); // Debug log
           setProducts(formattedProducts);
         }
 
