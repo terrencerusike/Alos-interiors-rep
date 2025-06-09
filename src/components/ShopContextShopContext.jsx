@@ -8,6 +8,7 @@ export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]); // State for categories
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fetch products and categories from Strapi
   useEffect(() => {
@@ -15,11 +16,20 @@ export function ProductProvider({ children }) {
       try {
         // Fetch products
         const productRes = await fetch(
-          `https://alos-strapi-repo-3.onrender.com/api/products?populate=*`
+          `https://alos-strapi-repo-3.onrender.com/api/products?populate=*`,
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
         );
 
-        const productData = await productRes.json();
+        if (!productRes.ok) {
+          throw new Error(`HTTP error! status: ${productRes.status}`);
+        }
 
+        const productData = await productRes.json();
         console.log("Fetch response:", productData);
 
         if (productData.data) {
@@ -29,7 +39,7 @@ export function ProductProvider({ children }) {
             price: item.price,
             description: item.description,
             image: item.images?.[0]?.url
-              ? `https://alos-strapi-repo-3.onrender.com/${item.images[0].url}`
+              ? `https://alos-strapi-repo-3.onrender.com${item.images[0].url}`
               : "/fallback-image.png",
             category: item.category, // Include the category object
           }));
@@ -38,8 +48,18 @@ export function ProductProvider({ children }) {
 
         // Fetch categories
         const categoryRes = await fetch(
-          "https://alos-strapi-repo-3.onrender.com/api/categories"
+          "https://alos-strapi-repo-3.onrender.com/api/categories",
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
         );
+
+        if (!categoryRes.ok) {
+          throw new Error(`HTTP error! status: ${categoryRes.status}`);
+        }
 
         const categoryData = await categoryRes.json();
         console.log("Category response:", categoryData);
@@ -55,7 +75,8 @@ export function ProductProvider({ children }) {
         }
       } catch (err) {
         console.error("Failed to fetch data:", err);
-        toast.error("Failed to fetch products or categories.");
+        setError(err.message);
+        toast.error(`Failed to fetch products or categories: ${err.message}`);
       } finally {
         setLoading(false);
       }
