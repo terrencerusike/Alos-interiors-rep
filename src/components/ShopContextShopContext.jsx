@@ -6,11 +6,10 @@ const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]); // State for categories
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch products and categories from Strapi
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,22 +17,29 @@ export function ProductProvider({ children }) {
         const productRes = await fetch(
           `https://alos-strapi-repo-3.onrender.com/api/products?populate=*`
         );
-
         const productData = await productRes.json();
-
         console.log("Fetch response:", productData);
 
         if (productData.data) {
-          const formattedProducts = productData.data.map((item) => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            description: item.description,
-            image: item.images?.[0]?.url
-              ? `https://alos-strapi-repo-3.onrender.com${item.images[0].url}`
-              : "/fallback-image.png",
-            category: item.category, // Include the category object
-          }));
+          const formattedProducts = productData.data.map((item) => {
+            const imageObj = item.images?.[0];
+            const mediumImage = imageObj?.formats?.medium?.url;
+            const originalImage = imageObj?.url;
+
+            return {
+              id: item.id,
+              name: item.name,
+              price: item.price,
+              description: item.description,
+              image: mediumImage
+                ? `https://alos-strapi-repo-3.onrender.com${mediumImage}`
+                : originalImage
+                ? `https://alos-strapi-repo-3.onrender.com${originalImage}`
+                : "/fallback-image.png",
+              category: item.category,
+            };
+          });
+
           setProducts(formattedProducts);
         }
 
@@ -47,7 +53,7 @@ export function ProductProvider({ children }) {
             },
           }
         );
-        console.log("Category response:", categoryRes);
+
         if (!categoryRes.ok) {
           throw new Error(`HTTP error! status: ${categoryRes.status}`);
         }
