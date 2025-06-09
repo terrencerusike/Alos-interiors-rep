@@ -6,9 +6,8 @@ const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); // State for categories
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   // Fetch products and categories from Strapi
   useEffect(() => {
