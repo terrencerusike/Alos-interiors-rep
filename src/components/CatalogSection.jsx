@@ -55,7 +55,6 @@ function CatalogSection() {
           </div>
         )}
       </div>
-      hdfdfd
     </div>
   );
 }

@@ -15,7 +15,7 @@ function IntroSection() {
       </div>
       <div className="intro-section-p">
         <p>
-          With over 25 years of experience in the furniture industry, we’ve
+          With 0000over 25 years of experience in the furniture industry, we’ve
           built a reputation for quality, craftsmanship, and customer
           satisfaction. Our deep expertise ensures that every piece is
           thoughtfully designed and made to last. Trust us to bring timeless
