@@ -15,7 +15,7 @@ export function ProductProvider({ children }) {
       try {
         // Fetch products
         const productRes = await fetch(
-          `https://alos-strapi-repo-2.onrender.com/api/products?populate=*`
+          `https://alos-strapi-repo-3.onrender.com/api/products?populate=*`
         );
 
         const productData = await productRes.json();
@@ -29,7 +29,7 @@ export function ProductProvider({ children }) {
             price: item.price,
             description: item.description,
             image: item.images?.[0]?.url
-              ? `https://alos-strapi-repo-2.onrender.com${item.images[0].url}`
+              ? `https://alos-strapi-repo-3.onrender.com/${item.images[0].url}`
               : "/fallback-image.png",
             category: item.category, // Include the category object
           }));
@@ -38,7 +38,7 @@ export function ProductProvider({ children }) {
 
         // Fetch categories
         const categoryRes = await fetch(
-          "https://alos-strapi-repo-2.onrender.com/api/categories"
+          "https://alos-strapi-repo-3.onrender.com/api/categories"
         );
 
         const categoryData = await categoryRes.json();
