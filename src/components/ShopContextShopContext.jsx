@@ -113,7 +113,9 @@ export function ProductProvider({ children }) {
     <ProductContext.Provider
       value={{
         products,
+        categories,
         loading,
+        error,
         cart,
         addToCart,
         removeFromCart,

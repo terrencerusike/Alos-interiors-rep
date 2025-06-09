@@ -1,72 +1,41 @@
+// src/components/CatalogSection.js
 import React from "react";
 import { Link } from "react-router-dom";
 import { useProducts } from "./ShopContextShopContext";
 import "./CatalogSection.css";
 
 function CatalogSection() {
-  const { categories, loading } = useProducts();
+  const { categories, loading, error } = useProducts();
 
-  // Wait until categories are loaded and valid
-  if (loading || !Array.isArray(categories)) {
-    return <p>Loading categories...</p>;
-  }
+  console.log("Categories:", categories); // Debug log
 
-  // Helper to find a category safely by name
-  const getCategory = (name) =>
-    categories.find((cat) => cat?.name?.toLowerCase() === name.toLowerCase());
+  if (loading) return <p>Loading categories...</p>;
+  if (error) return <p>Error loading categories: {error}</p>;
+  if (!categories || categories.length === 0) return <p>No categories found</p>;
 
-  const accessories = getCategory("Accessories");
-  const bedroom = getCategory("Bedroom");
-  const dining = getCategory("Dining Room");
-  const living = getCategory("Living Room");
-  const office = getCategory("Office");
-  const sales = getCategory("Sales");
+  // Define the category positions and their corresponding indices
+  const categoryPositions = [
+    { index: 5, className: "item1" },
+    { index: 1, className: "item2" },
+    { index: 2, className: "item3" },
+    { index: 3, className: "item4" },
+    { index: 4, className: "item5" },
+    { index: 0, className: "item6" },
+  ];
 
   return (
     <div className="catalog-section">
       <div className="grid">
-        {accessories && (
-          <div className="item item1">
-            <Link to={`/Shop/${accessories.id}`}>
-              <p>{accessories.name}</p>
-            </Link>
-          </div>
-        )}
-        {bedroom && (
-          <div className="item item2">
-            <Link to={`/Shop/${bedroom.id}`}>
-              <p>{bedroom.name}</p>
-            </Link>
-          </div>
-        )}
-        {dining && (
-          <div className="item item3">
-            <Link to={`/Shop/${dining.id}`}>
-              <p>{dining.name}</p>
-            </Link>
-          </div>
-        )}
-        {living && (
-          <div className="item item4">
-            <Link to={`/Shop/${living.id}`}>
-              <p>{living.name}</p>
-            </Link>
-          </div>
-        )}
-        {office && (
-          <div className="item item5">
-            <Link to={`/Shop/${office.id}`}>
-              <p>{office.name}</p>
-            </Link>
-          </div>
-        )}
-        {sales && (
-          <div className="item item6">
-            <Link to={`/Shop/${sales.id}`}>
-              <p>{sales.name}</p>
-            </Link>
-          </div>
-        )}
+        {categoryPositions.map(({ index, className }) => {
+          const category = categories[index];
+          return category ? (
+            <div key={category.id} className={`item ${className}`}>
+              <Link to={`/Shop/${category.id}`}>
+                <p>{category.name}</p>
+              </Link>
+            </div>
+          ) : null;
+        })}
       </div>
     </div>
   );
