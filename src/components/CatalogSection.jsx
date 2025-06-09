@@ -33,10 +33,10 @@ function CatalogSection() {
             </Link>
           </div>
         )}
-        {categories[3] && (
+        {categories[5] && (
           <div className="item item4">
-            <Link to={`/Shop/${categories[3].id}`}>
-              <p>{categories[3].name}</p>
+            <Link to={`/Shop/${categories[5].id}`}>
+              <p>{categories[5].name}</p>
             </Link>
           </div>
         )}
@@ -50,7 +50,7 @@ function CatalogSection() {
         {categories[0] && (
           <div className="item item6">
             <Link to={`/Shop/${categories[0].id}`}>
-              <p>{categories[0].name} vcvcvc</p>
+              <p>{categories[0].name}</p>
             </Link>
           </div>
         )}
