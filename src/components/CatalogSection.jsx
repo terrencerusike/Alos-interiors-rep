@@ -5,6 +5,7 @@ import "./CatalogSection.css";
 
 function CatalogSection() {
   const { categories, loading } = useProducts();
+  console.log("Categories:", categories);
 
   if (loading) return <p>Loading categories...</p>;
 
