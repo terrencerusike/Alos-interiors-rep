@@ -1,4 +1,3 @@
-// src/components/CatalogSection.js
 import React from "react";
 import { Link } from "react-router-dom";
 import { useProducts } from "./ShopContextShopContext";
@@ -9,48 +8,59 @@ function CatalogSection() {
 
   if (loading) return <p>Loading categories...</p>;
 
+  // Helper to find a category by name
+  const getCategory = (name) => categories.find((cat) => cat.name === name);
+
+  // Grab each category safely by name
+  const accessories = getCategory("Accessories");
+  const bedroom = getCategory("Bedroom");
+  const dining = getCategory("Dining Room");
+  const living = getCategory("Living Room");
+  const office = getCategory("Office");
+  const sales = getCategory("Sales");
+
   return (
     <div className="catalog-section">
       <div className="grid">
-        {categories[5] && (
+        {accessories && (
           <div className="item item1">
-            <Link to={`/Shop/${categories[5].id}`}>
-              <p>{categories[5].name}</p>
+            <Link to={`/Shop/${accessories.id}`}>
+              <p>{accessories.name}</p>
             </Link>
           </div>
         )}
-        {categories[1] && (
+        {bedroom && (
           <div className="item item2">
-            <Link to={`/Shop/${categories[1].id}`}>
-              <p>{categories[1].name}</p>
+            <Link to={`/Shop/${bedroom.id}`}>
+              <p>{bedroom.name}</p>
             </Link>
           </div>
         )}
-        {categories[2] && (
+        {dining && (
           <div className="item item3">
-            <Link to={`/Shop/${categories[2].id}`}>
-              <p>{categories[2].name}</p>
+            <Link to={`/Shop/${dining.id}`}>
+              <p>{dining.name}</p>
             </Link>
           </div>
         )}
-        {categories[3] && (
+        {living && (
           <div className="item item4">
-            <Link to={`/Shop/${categories[3].id}`}>
-              <p>{categories[3].name}</p>
+            <Link to={`/Shop/${living.id}`}>
+              <p>{living.name}</p>
             </Link>
           </div>
         )}
-        {categories[4] && (
+        {office && (
           <div className="item item5">
-            <Link to={`/Shop/${categories[4].id}`}>
-              <p>{categories[4].name}</p>
+            <Link to={`/Shop/${office.id}`}>
+              <p>{office.name}</p>
             </Link>
           </div>
         )}
-        {categories[0] && (
+        {sales && (
           <div className="item item6">
-            <Link to={`/Shop/${categories[0].id}`}>
-              <p>{categories[0].name}</p>
+            <Link to={`/Shop/${sales.id}`}>
+              <p>{sales.name}</p>
             </Link>
           </div>
         )}
