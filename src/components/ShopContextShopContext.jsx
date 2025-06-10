@@ -15,7 +15,7 @@ export function ProductProvider({ children }) {
       try {
         // Fetch products
         const productRes = await fetch(
-          `https://alos-strapi-repo-3.onrender.com/api/products?populate=*`
+          `https://alos-strapi-repo-3.onrender.com/api/products?populate=media`
         );
         const productData = await productRes.json();
         console.log("Fetch response:", productData);
