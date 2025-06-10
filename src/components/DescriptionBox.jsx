@@ -9,19 +9,20 @@ const DescriptionBox = () => {
       </div>
       <div className="descriptionbox-description">
         <p>
-          An e-commerce website is an online platform that facilitates the
-          buying and selling of products or services over the internet. It
-          serves as a virtual marketplace where businesses and individuals can
-          showcase their products, interact with customers, and conduct
-          transactions without the need for a physical presence. E-commerce
-          websites have gained immense popularity due to their convenience,
-          accessibility, and the global reach they offer.
+          Our skilled artisans, some of whom have been with us for decades,
+          employ time-honored techniques alongside modern innovations. This
+          means paying close attention to details like precision joinery that
+          stands the test of time, hand-finishing that brings out the natural
+          beauty of the wood, and robust construction methods that guarantee
+          stability and resilience for years to come.
         </p>
         <p>
-          E-commerce websites typically display products or services along with
-          detailed descriptions, images, prices, and any available variations
-          (e.g., sizes, colors). Each product usually has its own dedicated page
-          with relevant information.
+          The result is more than just furniture; it's an investment. Pieces
+          designed not only to bring timeless style and reliable comfort into
+          your home today but to become cherished parts of your life for
+          generations. We pride ourselves on creating furniture that's built to
+          be enjoyed, lived on, and admired for its enduring quality and the
+          exceptional craftsmanship behind every single piece.
         </p>
       </div>
     </div>
