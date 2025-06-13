@@ -25,7 +25,7 @@ const Loginn = () => {
       };
 
       const response = await fetch(
-        "http://localhost:1337/api/auth/local/",
+        "https://alos-strapi-repo-3.onrender.com/api/auth/local/",
         reqOptions
       );
 

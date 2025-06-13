@@ -1,4 +1,3 @@
-// src/context/ProductContext.js
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -10,64 +9,88 @@ export function ProductProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const STRAPI_BASE_URL = "https://alos-strapi-repo-3.onrender.com";
+
+  // Ensure HTTPS
+  const getSecureImageUrl = (url) => {
+    if (!url) return null;
+    return url.startsWith("http://") ? url.replace("http://", "https://") : url;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch products
-        const productRes = await fetch(
-          `https://alos-strapi-repo-3.onrender.com/api/products?populate=*`
-        );
-        const productData = await productRes.json();
-        console.log("Fetch response:", productData);
+        const [prodRes, catRes] = await Promise.all([
+          fetch(
+            `${STRAPI_BASE_URL}/api/products?populate=*&timestamp=${Date.now()}`
+          ),
+          fetch(
+            `${STRAPI_BASE_URL}/api/categories?populate=*&timestamp=${Date.now()}`
+          ),
+        ]);
 
-        if (productData.data) {
-          const formattedProducts = productData.data.map((item) => {
-            const imageObj = item.images?.[0];
-            const imageUrl =
-              imageObj?.formats?.medium?.url || imageObj?.url || null;
-
-            return {
-              id: item.id,
-              name: item.name,
-              price: item.price,
-              description: item.description,
-              image: imageUrl
-                ? `https://alos-strapi-repo-3.onrender.com${imageUrl}`
-                : "/fallback-image.png",
-              category: item.category,
-            };
-          });
-
-          setProducts(formattedProducts);
+        if (!prodRes.ok || !catRes.ok) {
+          throw new Error(
+            `HTTP error! Products: ${prodRes.status}, Categories: ${catRes.status}`
+          );
         }
 
-        // Fetch categories
-        const categoryRes = await fetch(
-          "https://alos-strapi-repo-3.onrender.com/api/categories",
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
+        const { data: rawProducts } = await prodRes.json();
+        const { data: rawCategories } = await catRes.json();
+
+        const formattedProducts = rawProducts.map((item) => {
+          const source = item.attributes ?? item;
+          const { id, name, price, description, category, image } = source;
+
+          let rawUrl = null;
+          if (image?.data) {
+            rawUrl = image.data.attributes?.url;
+          } else if (Array.isArray(image?.data)) {
+            rawUrl = image.data[0]?.attributes?.url;
           }
-        );
 
-        if (!categoryRes.ok) {
-          throw new Error(`HTTP error! status: ${categoryRes.status}`);
-        }
+          if (rawUrl?.startsWith("/")) {
+            rawUrl = `${STRAPI_BASE_URL}${rawUrl}`;
+          }
 
-        const categoryData = await categoryRes.json();
-        console.log("Category response:", categoryData);
+          const secureImageUrl = getSecureImageUrl(rawUrl);
 
-        if (categoryData.data) {
-          const formattedCategories = categoryData.data.map((cat) => ({
-            id: cat.id,
-            name: cat.name,
-            image: cat.image,
-          }));
+          return {
+            id,
+            name,
+            price,
+            description,
+            image: secureImageUrl || "/fallback-image.png",
+            category: category?.data?.attributes ?? category,
+          };
+        });
 
-          setCategories(formattedCategories);
-        }
+        const formattedCategories = rawCategories.map((item) => {
+          const source = item.attributes ?? item;
+          const { id, name, image } = source;
+
+          let rawUrl = null;
+          if (image?.data) {
+            rawUrl = image.data.attributes?.url;
+          } else if (Array.isArray(image?.data)) {
+            rawUrl = image.data[0]?.attributes?.url;
+          }
+
+          if (rawUrl?.startsWith("/")) {
+            rawUrl = `${STRAPI_BASE_URL}${rawUrl}`;
+          }
+
+          const secureImageUrl = getSecureImageUrl(rawUrl);
+
+          return {
+            id,
+            name,
+            image: secureImageUrl || "/category-fallback.png",
+          };
+        });
+
+        setProducts(formattedProducts);
+        setCategories(formattedCategories);
       } catch (err) {
         console.error("Failed to fetch data:", err);
         setError(err.message);
@@ -81,12 +104,12 @@ export function ProductProvider({ children }) {
   }, []);
 
   const [cart, setCart] = useState(() => {
-    const storedCart = localStorage.getItem("cart");
-    return storedCart ? JSON.parse(storedCart) : [];
+    const stored = localStorage.getItem("cart");
+    return stored ? JSON.parse(stored) : [];
   });
 
   const removeFromCart = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+    setCart((prev) => prev.filter((item) => item.id !== id));
     toast.success("Item removed");
   };
 
@@ -95,23 +118,22 @@ export function ProductProvider({ children }) {
   }, [cart]);
 
   const addToCart = (product) => {
-    if (cart.some((item) => item.id === product.id)) {
-      setCart(
-        cart.map((item) =>
+    setCart((prev) => {
+      const exists = prev.find((item) => item.id === product.id);
+      if (exists) {
+        return prev.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
-        )
-      );
-    } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
-    }
+        );
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
     toast.success("Item added to cart!");
   };
 
-  const getTotalCartItems = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  };
+  const getTotalCartItems = () =>
+    cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <ProductContext.Provider
