@@ -11,7 +11,6 @@ export function ProductProvider({ children }) {
 
   const STRAPI_BASE_URL = "https://alos-strapi-repo-3.onrender.com";
 
-  // Ensure HTTPS
   const getSecureImageUrl = (url) => {
     if (!url) return null;
     return url.startsWith("http://") ? url.replace("http://", "https://") : url;
@@ -40,13 +39,11 @@ export function ProductProvider({ children }) {
 
         const formattedProducts = rawProducts.map((item) => {
           const source = item.attributes ?? item;
-          const { id, name, price, description, category, image } = source;
+          const { id, name, price, description, category, images } = source;
 
           let rawUrl = null;
-          if (image?.data) {
-            rawUrl = image.data.attributes?.url;
-          } else if (Array.isArray(image?.data)) {
-            rawUrl = image.data[0]?.attributes?.url;
+          if (Array.isArray(images) && images.length > 0) {
+            rawUrl = images[0]?.formats?.large?.url || images[0]?.url;
           }
 
           if (rawUrl?.startsWith("/")) {
