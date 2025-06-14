@@ -11,7 +11,7 @@ const OrderForm = ({ cartItems, totalAmount, onClose }) => {
     city: "",
     province: "",
     postalCode: "",
-    paymentMethod: "credit-card",
+    paymentMethod: "payfast",
   });
 
   const handleChange = (e) => {
@@ -22,14 +22,50 @@ const OrderForm = ({ cartItems, totalAmount, onClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handlePayFastPayment = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", {
-      ...formData,
-      items: cartItems,
-      total: totalAmount,
+
+    // Create order data for PayFast
+    const orderData = {
+      merchant_id: process.env.REACT_APP_PAYFAST_MERCHANT_ID,
+      merchant_key: process.env.REACT_APP_PAYFAST_MERCHANT_KEY,
+      return_url: `${window.location.origin}/payment-success`,
+      cancel_url: `${window.location.origin}/payment-cancelled`,
+      notify_url: `${process.env.REACT_APP_API_URL}/api/payment/notify`,
+      name_first: formData.firstName,
+      name_last: formData.lastName,
+      email_address: formData.email,
+      cell_number: formData.phone,
+      m_payment_id: Date.now().toString(),
+      amount: totalAmount,
+      item_name: `Order from Alos Interiors`,
+      custom_str1: JSON.stringify({
+        address: formData.address,
+        city: formData.city,
+        province: formData.province,
+        postalCode: formData.postalCode,
+        items: cartItems,
+      }),
+    };
+
+    // Create form and submit to PayFast
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://www.payfast.co.za/eng/process";
+
+    // Add form fields
+    Object.keys(orderData).forEach((key) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = orderData[key];
+      form.appendChild(input);
     });
-    // You can add your API call here
+
+    // Add form to document and submit
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
   };
 
   return (
@@ -44,7 +80,7 @@ const OrderForm = ({ cartItems, totalAmount, onClose }) => {
           <p>Total Amount: R{totalAmount}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="order-form">
+        <form onSubmit={handlePayFastPayment} className="order-form">
           <div className="form-section">
             <h3>Personal Information</h3>
             <div className="form-row">
@@ -166,42 +202,20 @@ const OrderForm = ({ cartItems, totalAmount, onClose }) => {
               <div className="payment-method">
                 <input
                   type="radio"
-                  id="credit-card"
+                  id="payfast"
                   name="paymentMethod"
-                  value="credit-card"
-                  checked={formData.paymentMethod === "credit-card"}
+                  value="payfast"
+                  checked={formData.paymentMethod === "payfast"}
                   onChange={handleChange}
                 />
-                <label htmlFor="credit-card">Credit Card</label>
-              </div>
-              <div className="payment-method">
-                <input
-                  type="radio"
-                  id="eft"
-                  name="paymentMethod"
-                  value="eft"
-                  checked={formData.paymentMethod === "eft"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="eft">EFT</label>
-              </div>
-              <div className="payment-method">
-                <input
-                  type="radio"
-                  id="cash-on-delivery"
-                  name="paymentMethod"
-                  value="cash-on-delivery"
-                  checked={formData.paymentMethod === "cash-on-delivery"}
-                  onChange={handleChange}
-                />
-                <label htmlFor="cash-on-delivery">Cash on Delivery</label>
+                <label htmlFor="payfast">PayFast</label>
               </div>
             </div>
           </div>
 
           <div className="form-actions">
             <button type="submit" className="submit-button">
-              Place Order
+              Pay with PayFast
             </button>
           </div>
         </form>
