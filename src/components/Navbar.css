@@ -199,19 +199,29 @@ nav {
   .nav_link_desktop_right {
     display: none !important;
   }
-  .bread_crumb a {
-    display: none !important;
-  }
-
   .nav_bottom_right {
     display: none !important;
   }
   .mobile_menu {
     display: block !important;
   }
+  .intro-section-products {
+    padding: 0px 25px;
+  }
+
+  .navbar-container {
+    min-height: 0vh;
+  }
+
+  .intro-section-text {
+    padding: 37px;
+  }
 
   .mobile_nav {
     display: block !important;
+  }
+  .bread_crumb {
+    display: none;
   }
 
   .nav_container {
@@ -220,9 +230,11 @@ nav {
 
   .nav_bottom {
     flex-direction: column;
-    padding: 30px 0px !important;
+    padding: 34px 10px !important;
   }
-
+  br {
+    display: none;
+  }
   .nav_bottom_left {
     padding-top: 23px !important;
     text-align: center;
@@ -254,9 +266,6 @@ nav {
 
   .img_right {
     display: none;
-  }
-  .intro-section {
-    padding: 65px 100px;
   }
 }
 
@@ -294,8 +303,10 @@ nav {
   }
 
   .nav_bottom_left_h1 {
-    font-size: 30px !important;
-    line-height: 1.2;
+    text-transform: capitalize !important;
+    font-size: 33px !important;
+    line-height: 1.2 !important;
+    margin: 0px -23px !important;
   }
 
   .nav_bottom_left p {
