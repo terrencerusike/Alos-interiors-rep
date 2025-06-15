@@ -51,7 +51,7 @@ const OrderForm = ({ cartItems, totalAmount, onClose }) => {
     // Create form and submit to PayFast
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "https://www.payfast.co.za/eng/process";
+    form.action = "https://sandbox.payfast.co.za/eng/process";
 
     // Add form fields
     Object.keys(orderData).forEach((key) => {
